@@ -1,1 +1,22 @@
-Dashboard!
+<md-toolbar >
+    <div class="md-toolbar-tools"> <h3> <span>Lista de usuarios registrados</span> </h3> </div>
+</md-toolbar>
+
+<md-content flex>
+    <md-list>
+        <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="callUserFn(user)">
+            <img ng-src="{{user.photo}}" alt="{{user.name}}" class="md-avatar">
+
+            <div class="md-list-user-text">
+                <h3>{{user.invoice}}</h3>
+                <h6>{{user.name}}</h6> 
+            </div>
+            <md-divider inset></md-divider>
+            <md-button class="md-secondary md-raised md-primary" ng-click="callUserFn(user)" ng-disabled="buttonDisabled">LLAMAR</md-button>
+        </md-list-item>
+    </md-list>
+</md-content>
+
+<div class="logo"> 
+    <img src="assets/img/logo.svg">
+</div>

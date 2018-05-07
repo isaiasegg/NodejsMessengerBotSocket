@@ -1,12 +1,19 @@
-'user strict'; 
-angular.module('myApp', [
+'use strict';
+
+angular.module('gFood', [
   'ngRoute',
   'ngMaterial',
+  'ngMessages',
   'angularCSS',
-  'myApp.DashboardCtrl', 
+  'gFood.DashboardCtrl'
+]).
+  config(['$locationProvider', '$routeProvider', '$mdThemingProvider', '$provide', function ($locationProvider, $routeProvider, $mdThemingProvider, $provide) {
+    $locationProvider.hashPrefix('!'); 
+  }])
+  .run(function ($rootScope, $location, GeneralService ) {
 
-]).config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
-  $locationProvider.hashPrefix('!');
-}]).run(function ($rootScope, $window, $location, $route, GeneralService) {
-  
-});
+    GeneralService.getMeta().then(function (data) {
+      $rootScope.meta = data; 
+    });
+
+  })
