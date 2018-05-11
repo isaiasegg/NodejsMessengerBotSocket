@@ -36,11 +36,22 @@ module.exports.general = function (app) {
     })
   });
 
-  app.put('/api/userfinished/:id', function (req, res) { 
+  app.put('/api/usercalled/:id', function (req, res) {
     let user = req.body;
-    delete user._id;
-    user.finished = true
-    user.finished_time = new Date(); 
+    user.called = true;
+    user.called_time = new Date();
+    user.registered = false;
+    User.findByIdAndUpdate(req.params.id, { $set: user }, { new: true }, (err, updated) => {
+      if (err) { throw err; };
+      Message.msg(req.body.fbId, `Tu pedido ya está listo 🎉🎉, puedes pasar a retirarlo. Disfrutalo!!!`); 
+    });
+  })
+
+  app.put('/api/userfinished/:id', function (req, res) {
+    let user = req.body;
+    user.called = false;
+    user.finished = true;
+    user.finished_time = new Date();
 
     Records.create(user, (err, user) => {
       if (err) { throw err; };
@@ -50,12 +61,11 @@ module.exports.general = function (app) {
         for (let i = 1; i <= 5; i++) {
           qr.push({ content_type: "text", title: i, payload: "CALIFICACION_" + i });
           if (i === 5) {
-            Message.msgQrply(req.body.fbId, `Tu comida está lista 🎉🎉\n\nCalifica este servicio 🤗`, qr);
+            Message.msgQrply(req.body.fbId, `Gracias por preferirnos. Califica nuestro servicio para siempre brindarte la mejor calidad 🤗`, qr);
             res.json(deleted);
           };
         };
       });
-    });
+    }); 
   });
-
 }

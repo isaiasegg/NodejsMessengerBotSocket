@@ -31,6 +31,13 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
       });
     }
 
+    $scope.finishUserFn = function (user) { 
+      $scope.buttonDisabled = true;
+      GeneralService.finishUser(user._id, user).then(function (data) {
+        $route.reload();
+      });
+    }
+
     function updater(params) {
       GeneralService.getUsers().then(function (data) {
         $scope.users = data;  

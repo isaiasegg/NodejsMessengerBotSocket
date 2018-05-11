@@ -12,6 +12,9 @@ var UserSchema = new mongoose.Schema({
     registered: { type: Boolean },
     registered_time: { type: Date },
     //
+    called: { type: Boolean },
+    called_time: { type: Date },
+    //
     finished: { type: Boolean },
     finished_time: { type: Date },
     //

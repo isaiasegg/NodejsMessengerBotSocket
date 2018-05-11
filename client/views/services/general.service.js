@@ -13,6 +13,19 @@ angular.module('gFood').factory('GeneralService', function ($http, $q, $window, 
 
     this.callUser = function (id, data) {
         return $http({
+            url: '/api/usercalled/'+id,
+            method: 'PUT',
+            data
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    } 
+
+    this.finishUser = function (id, data) {
+        return $http({
             url: '/api/userfinished/'+id,
             method: 'PUT',
             data
