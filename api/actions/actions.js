@@ -61,7 +61,7 @@ module.exports.qualification = function (senderId, q) {
 
 module.exports.processLocation = function (senderId, location) {
   let getDistance = Math.floor(distance(location.lat, location.long, process.env.LAT, process.env.LONG, 'K')*1000); 
-  if(getDistance > 400){
+  if(getDistance > process.env.LOCATION_LIMIT){
     Message.msg(senderId, `Lo sentimos este local es solo para clientes en: ${process.env.LOCAL} :(`);
   } else { defaultMsg(senderId); }
 } 
