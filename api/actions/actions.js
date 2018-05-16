@@ -3,10 +3,8 @@ const Records = require('../models/Records');
 const Message = require('../messages/messages');
 const request = require('request');
 const Promise = require('bluebird');
-
 const moment = require('moment');
 const momentTz = require('moment-timezone');
-
 const CronJob = require('cron').CronJob;
 
 const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
@@ -16,7 +14,7 @@ const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
       if (user.registering) {
         User.findOneAndUpdate({ fbId: senderId }, { $set: { invoice: msg, registered: true, registered_time: new Date(), registering: false } }, { new: true }, (err, user) => {
           if (err) { return err };
-          Message.msg(senderId, `Muy bien. Ahora busca tu mesa mientras, yo espero por tu pedido.`);
+          Message.msg(senderId, `Muy bien. Ahora busca tu mesa mientras, yo espero por tu pedido\n\nActiva y sube el volumen de las noticificaciones ya que en breve voy a llamarte`);
         });
       }
       if (user.registered) {
@@ -60,18 +58,12 @@ module.exports.qualification = function (senderId, q) {
 }
 
 module.exports.processLocation = function (senderId, location) {
-  let getDistance = Math.floor(distance(location.lat, location.long, process.env.LAT, process.env.LONG, 'K')*1000); 
+  let getDistance = Math.floor(distance(location.lat, location.long, process.env.LAT, process.env.LONG, 'K')*1000);  
   if(getDistance > process.env.LOCATION_LIMIT){
     Message.msg(senderId, `Lo sentimos este local es solo para clientes en: ${process.env.LOCAL} :(`);
   } else { defaultMsg(senderId); }
 } 
-
-createUserCalled = () => {
-  const data = { "registering": false, "qualified": false, "fbId": "1698899900194676", "name": "Test User", "gender": "male", "photo": "https://lookaside.facebook.com/platform/profilepic/?psid=1698899900194676&width=1024&ext=1526273328&hash=AeSnrkuGV8ZMhaxI", "registered_time": "2018-05-11T04:48:51.670Z", "registered": false, "invoice": "456", "called_time": "2018-05-11T04:48:57.540Z", "called": true }
-  User.create(data, (err, user)=>{
-    console.log(user);
-  });
-}
+ 
 
 calledChecker = () => {
   User.find({ called: true }, (err, users) => {
@@ -79,14 +71,14 @@ calledChecker = () => {
     return Promise.each(users, (user) => {
       var now = new Date(user.called_time);
       var then = new Date;
-      var tDiff = moment.utc(moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))).format("mm");
-      if (tDiff >= parseInt(process.env.CALLED_NOTIFICATION)) {
+      var tDiff = moment.utc(moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))).format("mm:ss"); 
+      var toSec = parseInt(tDiff.split(':')[0])*60+parseInt(tDiff.split(':')[1]); 
+      if (toSec >= parseInt(process.env.CALLED_NOTIFICATION)) {
         Message.msg(user.fbId, `Tu pedido ya está listo 🎉🎉, puedes pasar a retirarlo. Disfrutalo!!!`);
       }
     });
   });
 }
-
 
 removeCalledChecker = () => {
   User.find({ called: true }, (err, users) => {
@@ -94,23 +86,23 @@ removeCalledChecker = () => {
     return Promise.each(users, (user) => {
       var now = new Date(user.called_time);
       var then = new Date;
-      var tDiff = moment.utc(moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))).format("mm");
-      if (tDiff >= parseInt(process.env.CALLED_REMOVAL)) {
+      var tDiff = moment.utc(moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))).format("mm"); 
+      if (parseInt(tDiff) >= parseInt(process.env.CALLED_REMOVAL)) {
         User.findByIdAndRemove(user._id, (err, removed)=>{
           if (err) { return }; if (!users) { return };
-          Message.msg(user.fbId, `No retiraste tu pedido. Debes hacer el proceso nuevamente.`);
+          Message.msg(user.fbId, `No retiraste tu pedido. Debes hacer el proceso nuevamente`);
         });
       };
     });
   });
 }
 
-new CronJob('0 */10 * * * *', function() {
+new CronJob(`*/${process.env.CALLED_NOTIFICATION} * * * * *`, function() {
   calledChecker();
   }, null, true, 'America/Santiago'
 );
 
-new CronJob('0 */10 * * * *', function() {
+new CronJob(`0 */1 * * * *`, function() {
   removeCalledChecker();
   }, null, true, 'America/Santiago'
 );
