@@ -5,7 +5,8 @@ angular.module('gFood', [
   'ngMaterial',
   'ngMessages',
   'angularCSS',
-  'gFood.DashboardCtrl'
+  'gFood.DashboardCtrl',
+  'gFood.LoginCtrl'
 ]).
   config(['$locationProvider', '$routeProvider', '$mdThemingProvider', '$provide', function ($locationProvider, $routeProvider, $mdThemingProvider, $provide) {
     $locationProvider.hashPrefix('!'); 

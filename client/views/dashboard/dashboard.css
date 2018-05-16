@@ -14,3 +14,11 @@ md-list-item .md-avatar, md-list-item .md-list-item-inner .md-avatar {
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     margin-bottom: 5px; 
 }
+
+.mainContent {
+    display: flex;
+}
+
+md-list { 
+    padding: 0px 0px 8px 0px;
+}

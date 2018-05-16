@@ -3,10 +3,23 @@ const Records = require('../models/Records');
 const Promise = require('bluebird');
 const Message = require('../messages/messages');
 
-//User.remove((err, deleted) => {})
-//Records.remove((err, deleted) => {})
-
 module.exports.general = function (app) {
+
+  app.post('/asdcac1546k4ds684f46vx65dh46j/login', (req, res) => {
+
+    if (req.body.email === process.env.EMAIL) {
+      if (req.body.password === process.env.EMAIL_PASS) {
+        const obj = { id: process.env.LOCAL_ID }
+        res.json(obj);
+      } else {
+        const obj = { msg: "Usuario y/o contraseña incorrecta" }
+        res.json(obj);
+      };
+    } else {
+      const obj = { msg: "Usuario y/o contraseña incorrecta" }
+      res.json(obj);
+    }
+  });
 
   app.get('/api/meta', function (req, res) {
     const meta = {
@@ -20,6 +33,12 @@ module.exports.general = function (app) {
       if (err) { throw err; }
       res.json(users);
     })
+  });
+
+  app.get('/api/loggeduser/:id', function (req, res) {
+    if (req.params.id === process.env.LOCAL_ID) { 
+      res.json(process.env.LOCAL_ID);
+    } else { res.json({ noExist: true }) }
   });
 
   app.get('/api/user/:id', function (req, res) {
@@ -43,7 +62,7 @@ module.exports.general = function (app) {
     user.registered = false;
     User.findByIdAndUpdate(req.params.id, { $set: user }, { new: true }, (err, updated) => {
       if (err) { throw err; };
-      Message.msg(req.body.fbId, `Tu pedido ya está listo 🎉🎉, puedes pasar a retirarlo. Disfrutalo!!!`); 
+      Message.msg(req.body.fbId, `Tu pedido ya está listo 🎉🎉, puedes pasar a retirarlo. Disfrutalo!!!`);
     });
   })
 
@@ -66,6 +85,6 @@ module.exports.general = function (app) {
           };
         };
       });
-    }); 
+    });
   });
 }

@@ -13,7 +13,14 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
 
   }])
 
-  .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$route', function ($scope, GeneralService, $interval, $route) {
+  .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$route', '$window', '$location', function ($scope, GeneralService, $interval, $route, $window, $location) {
+
+    //Session checker
+    if ($window.localStorage.getItem('token')) { GeneralService.getLoggedUser($window.localStorage.token.split('c412')[1]).then(function (data) { 
+      if(data.noExist) { $window.localStorage.removeItem('token'); return $location.path('/login'); };
+      $scope.admin_id = data;
+    }); } else { $location.path('/login'); }
+    /*-----------------------------------------------------------------------*/
 
     updater($scope, GeneralService);
     stop = $interval(function () {
@@ -24,14 +31,14 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
       if (angular.isDefined(stop)) { $interval.cancel(stop); stop = undefined; }
     });
 
-    $scope.callUserFn = function (user) { 
+    $scope.callUserFn = function (user) {
       $scope.buttonDisabled = true;
       GeneralService.callUser(user._id, user).then(function (data) {
         $route.reload();
       });
     }
 
-    $scope.finishUserFn = function (user) { 
+    $scope.finishUserFn = function (user) {
       $scope.buttonDisabled = true;
       GeneralService.finishUser(user._id, user).then(function (data) {
         $route.reload();
@@ -40,8 +47,13 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
 
     function updater(params) {
       GeneralService.getUsers().then(function (data) {
-        $scope.users = data;  
+        $scope.users = data;
       });
+    }
+
+    $scope.logOut = function () {
+      $window.localStorage.removeItem('token');
+      $location.path('/login');
     }
 
   }]) 
