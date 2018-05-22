@@ -38,6 +38,10 @@ angular.module('gFood.StatsCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ngMate
         $window.localStorage.setItem('stats', data.stats);
         $scope.adminLogged = true;
         $scope.loginAdminMsg = undefined;
+        //
+        GeneralService.getRecords().then(function (data) { 
+          $scope.getStats(data);
+        });
       });
     }
 
