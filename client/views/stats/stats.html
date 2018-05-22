@@ -1,0 +1,54 @@
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h3>
+            <span>{{meta.local}}</span>
+        </h3>
+        <span flex></span>
+        <md-button class="md-raised md-primary" md-position-mode="target-right target" ng-click="goTo()">VOLVER</md-button>
+    </div>
+
+</md-toolbar> 
+<md-content class="stats" flex ng-if="!adminLogged">
+    <div class="loginStats">
+        <div class="loginHoldere">
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Contraseña</label>
+                <input type="password" ng-model="admin.password" required>
+            </md-input-container>
+            <div>
+                <md-button ng-click="loginAdminFn()" class="md-raised md-primary" md-position-mode="target-right target">VER STATS</md-button>
+            </div>
+        </div>
+
+        <div ng-if="loginAdminMsg">
+            <p style="margin: 0" class="alert alert-danger text-center">{{loginAdminMsg}}</p>
+        </div>
+    </div>
+</md-content>
+
+<md-content flex ng-if="adminLogged" style="margin-bottom: 100px">
+    <md-content>
+        <h6 style="padding: 30px 10px 0px 10px">Puntuación de usuarios</h6>
+        <div class="statsCountainer">
+            <div class="bar"></div>
+            <div class="stars"></div>
+        </div>
+    </md-content>
+    <md-list>
+        <md-divider></md-divider>
+        <md-subheader class="md-no-sticky">Lista de puntuaciones (from 1 to 5)</md-subheader>
+        <md-list-item class="md-3-line" ng-repeat="r in records" ng-click="item()">
+            <div class="md-list-user-text">
+                <h3>{{r.invoice}} - {{r.name}}</h3>
+                <h6 class="pie-lista"> <b> Nombre </b> {{r.name}} | <b> Tiempo de atencion </b>  </h6> 
+            </div>
+            <md-divider inset></md-divider>
+            <md-button class="md-secondary md-raised md-primary">{{r.qualification}}</md-button>
+        </md-list-item>
+    </md-list>
+</md-content>
+
+<div class="logo">
+    <img src="assets/img/logo.svg">
+</div>

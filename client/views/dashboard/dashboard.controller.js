@@ -53,6 +53,7 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
 
     $scope.logOut = function () {
       $window.localStorage.removeItem('token');
+      $window.localStorage.removeItem('stats');
       $location.path('/login');
     }
 

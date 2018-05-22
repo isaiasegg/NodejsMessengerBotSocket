@@ -4,6 +4,7 @@
             <span>{{meta.local}}</span>
         </h3>
         <span flex></span>
+        <md-button class="md-raised md-primary" md-position-mode="target-right target" href="/stats">VER STATS</md-button>
         <md-button class="md-icon-button" aria-label="Logout" ng-click="logOut()">
             <md-icon md-svg-icon="/assets/img/logout.svg" class="favorite-icon"></md-icon>
         </md-button>
@@ -16,8 +17,7 @@
         <md-divider></md-divider>
         <md-subheader class="md-no-sticky">Lista de usuarios registrados</md-subheader>
         <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="item()">
-            <img ng-src="{{user.photo}}" alt="{{user.name}}" class="md-avatar">
-
+            <!-- <img ng-src="{{user.photo}}" alt="{{user.name}}" class="md-avatar">-->
             <div class="md-list-user-text">
                 <h3>{{user.invoice}}</h3>
                 <h6>{{user.name}}</h6>

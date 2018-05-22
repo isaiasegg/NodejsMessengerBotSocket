@@ -21,6 +21,17 @@ module.exports.general = function (app) {
     }
   });
 
+  app.post('/api/adminlogin', (req, res) => { 
+      if (req.body.password === process.env.STATS_PASS) {
+        const obj = { stats: true }
+        res.json(obj);
+      } else {
+        const obj = { msg: "Usuario y/o contraseña incorrecta" }
+        res.json(obj);
+      };
+      
+  });
+
   app.get('/api/meta', function (req, res) {
     const meta = {
       local: process.env.LOCAL
@@ -35,8 +46,15 @@ module.exports.general = function (app) {
     })
   });
 
+  app.get('/api/records', function (req, res) {
+    Records.find({}, (err, users) => {
+      if (err) { throw err; }
+      res.json(users);
+    });
+  });
+
   app.get('/api/loggeduser/:id', function (req, res) {
-    if (req.params.id === process.env.LOCAL_ID) { 
+    if (req.params.id === process.env.LOCAL_ID) {
       res.json(process.env.LOCAL_ID);
     } else { res.json({ noExist: true }) }
   });

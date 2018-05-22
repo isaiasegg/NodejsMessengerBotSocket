@@ -11,6 +11,31 @@ angular.module('gFood').factory('GeneralService', function ($http, $q, $window, 
         });
     }
 
+    this.getRecords = function (id) {
+        return $http({
+            url: '/api/records',
+            method: 'GET'
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
+    this.logginAdmin = function (data) {
+        return $http({
+            url: '/api/adminlogin',
+            method: 'POST',
+            data: data
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
     this.callUser = function (id, data) {
         return $http({
             url: '/api/usercalled/' + id,
