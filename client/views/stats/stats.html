@@ -1,4 +1,3 @@
-
 <md-toolbar>
     <div class="md-toolbar-tools">
         <h3>
@@ -7,8 +6,8 @@
         <span flex></span>
         <md-button class="md-raised md-primary" md-position-mode="target-right target" ng-click="goTo()">VOLVER</md-button>
     </div>
+</md-toolbar>
 
-</md-toolbar> 
 <md-content class="stats" flex ng-if="!adminLogged">
     <div class="loginStats">
         <div class="loginHoldere">
@@ -17,7 +16,7 @@
                 <input type="password" ng-model="admin.password" required>
             </md-input-container>
             <div>
-                <md-button ng-click="loginAdminFn()" class="md-raised md-primary" md-position-mode="target-right target">VER STATS</md-button>
+                <md-button ng-click="loginAdminFn()" class="md-raised md-primary" md-position-mode="target-right target">ENTRAR</md-button>
             </div>
         </div>
 
@@ -27,27 +26,79 @@
     </div>
 </md-content>
 
-<md-content flex ng-if="adminLogged" style="margin-bottom: 100px">
+<md-content style="display: flex;" ng-if="adminLogged">
     <md-content>
+        <h6 style="padding: 30px 10px 0px 10px">Ventas del Día </h6>
+        <h2 class="datSells">{{daySells}}</h2>
+    </md-content>
+
+    <md-content style=" margin-left: 40px; ">
         <h6 style="padding: 30px 10px 0px 10px">Puntuación de usuarios</h6>
         <div class="statsCountainer">
             <div class="bar"></div>
             <div class="stars"></div>
         </div>
     </md-content>
-    <md-list>
-        <md-divider></md-divider>
-        <md-subheader class="md-no-sticky">Lista de puntuaciones (del 1 a el 5)</md-subheader>
-        <md-list-item class="md-3-line" ng-repeat="r in records" ng-click="item()">
-            <div class="md-list-user-text">
-                <h3>{{r.invoice}} - {{r.name}}</h3>
-                <h6 class="pie-lista"> <b> Nombre </b> {{r.name}} | <b> Tiempo de atencion </b>  </h6> 
-            </div>
-            <md-divider inset></md-divider>
-            <md-button class="md-secondary md-raised md-primary">{{r.qualification}}</md-button>
-        </md-list-item>
-    </md-list>
 </md-content>
+
+<div ng-cloak ng-if="adminLogged">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+
+            <md-tab label="Historial de Ventas">
+                <md-content flex style="margin-bottom: 100px">
+                    <md-list>
+                        <md-divider></md-divider>
+                        <md-subheader class="md-no-sticky">Lista de ventas ({{sales.length}})
+                        </md-subheader>
+                        <md-divider></md-divider>
+                        <div layout-gt-xs="row" class="salesFilters">
+                            <div flex-gt-xs>
+                                <md-datepicker ng-model="filters.date" md-placeholder="Filtrar por fecha" md-open-on-focus ng-change="filterByDate(records)"></md-datepicker>
+                                <md-button class="md-primary md-raised" ng-click="clearFilterByDate()">TODAS</md-button>
+                            </div>
+
+                        </div>
+                        <md-divider></md-divider>
+                        <md-list-item class="md-3-line" ng-repeat="r in sales" ng-click="item()">
+                            <div class="md-list-user-text">
+                                <h3>{{r.invoice}} </h3>
+                                <h6 class="pie-lista">
+                                    <b> Nombre </b> {{r.name}} |
+                                    <b> Tiempo de atencion: </b>{{getAttentionTime(r)}} Min</h6>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="Historial de Puntuación">
+
+                <md-content flex style="margin-bottom: 100px">
+                    <md-list>
+                        <md-divider></md-divider>
+                        <md-subheader class="md-no-sticky">Lista de puntuaciones (del 1 a el 5)</md-subheader>
+                        <md-list-item class="md-3-line" ng-repeat="r in records" ng-click="item()">
+                            <div class="md-list-user-text">
+                                <h3>{{r.name}} </h3>
+                                <h6 class="pie-lista">
+                                    <b> Orden: </b> {{r.invoice}} 
+                            </div>
+                            <md-divider inset></md-divider>
+
+                            <md-button class="md-secondary md-raised md-primary">{{r.qualification}}</md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>
+
+
+
 
 <div class="logo">
     <img src="assets/img/logo.svg">

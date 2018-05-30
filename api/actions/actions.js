@@ -14,7 +14,7 @@ const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
       if (user.registering) {
         User.findOneAndUpdate({ fbId: senderId }, { $set: { invoice: msg, registered: true, registered_time: new Date(), registering: false } }, { new: true }, (err, user) => {
           if (err) { return err };
-          Message.msg(senderId, `Muy bien. Ahora busca tu mesa mientras, yo espero por tu pedido\n\nActiva y sube el volumen de las noticificaciones ya que en breve voy a llamarte`);
+          Message.msg(senderId, `Muy bien. Ahora busca tu mesa mientras, yo espero por tu pedido\n\nActiva y sube el volumen de las noticificaciones ya que en breve voy a llamarte.`);
         });
       }
       if (user.registered) {
@@ -27,7 +27,7 @@ const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
         let qr = [
           { content_type: "text", title: "Registrarme", payload: "REGISTRARME" }
         ];
-        Message.msgQrply(senderId, `Excelente. para comenzar presiona "Registrame", acto seguido ingresas tu numero de orden y enviar`, qr);
+        Message.msgQrply(senderId, `Excelente. para comenzar presiona "Registrame", acto seguido ingresas tu numero de orden y enviar.`, qr);
       });
     };
   });
@@ -90,7 +90,7 @@ removeCalledChecker = () => {
       if (parseInt(tDiff) >= parseInt(process.env.CALLED_REMOVAL)) {
         User.findByIdAndRemove(user._id, (err, removed)=>{
           if (err) { return }; if (!users) { return };
-          Message.msg(user.fbId, `No retiraste tu pedido. Debes hacer el proceso nuevamente`);
+          Message.msg(user.fbId, `No retiraste tu pedido. Debes hacer el proceso nuevamente.`);
         });
       };
     });

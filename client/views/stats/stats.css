@@ -86,6 +86,29 @@ md-input-container {
     width: 100%;
 }
 
+md-chips.md-default-theme .md-chips, md-chips .md-chips {
+    box-shadow: none;
+}
+
 h6.pie-lista {
     font-weight: 400;
+}
+
+.datSells{
+    font-size: 36px;
+    color: #009688;
+    border: 1px solid #009688;
+    border-radius: 500px;
+    display: inline-block;
+    padding: 3px 13px;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.salesFilters{
+    margin: 10px 0
+}
+
+.md-datepicker-input-container { 
+    width: 300px;
 }
