@@ -14,7 +14,9 @@ const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
       if (user.registering) {
         User.findOneAndUpdate({ fbId: senderId }, { $set: { invoice: msg, registered: true, registered_time: new Date(), registering: false } }, { new: true }, (err, user) => {
           if (err) { return err };
-          Message.msg(senderId, `Muy bien. Ahora busca tu mesa mientras, yo espero por tu pedido\n\nActiva y sube el volumen de las noticificaciones ya que en breve voy a llamarte.`);
+          Message.msg(senderId, `Muy bien. Ahora busca tu mesa, yo espero por tu pedido.\n\nActiva y sube el volumen de las noticificaciones ya que en breve voy a llamarte.`).then((f)=>{
+            Message.promos(senderId);
+          });
         });
       }
       if (user.registered) {
@@ -54,6 +56,7 @@ module.exports.register = function (senderId) {
 module.exports.qualification = function (senderId, q) {
   Records.findOneAndUpdate({ fbId: senderId, qualified: false }, { $set: { qualification: parseInt(q.split('_')[1]) }, qualified: true }, { new: true }, (err, user) => {
     if (err) { return err };
+    Message.msg(senderId, `Chao chao 👍👍`)
   });
 }
 
@@ -68,13 +71,13 @@ module.exports.processLocation = function (senderId, location) {
 calledChecker = () => {
   User.find({ called: true }, (err, users) => {
     if (err) { return }; if (!users) { return };
-    return Promise.each(users, (user) => {
+    return Promise.each(users, (user) => { 
       var now = new Date(user.called_time);
       var then = new Date;
       var tDiff = moment.utc(moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))).format("mm:ss"); 
-      var toSec = parseInt(tDiff.split(':')[0])*60+parseInt(tDiff.split(':')[1]); 
-      if (toSec >= parseInt(process.env.CALLED_NOTIFICATION)) {
-        Message.msg(user.fbId, `Tu pedido ya está listo 🎉🎉, puedes pasar a retirarlo. Disfrutalo!!!`);
+      var toSec = parseInt(tDiff.split(':')[0])*60+parseInt(tDiff.split(':')[1]);  
+      if (toSec >= parseInt(process.env.CALLED_NOTIFICATION)) { 
+        return Message.msg(user.fbId, `Tu pedido ya está listo 🎉🎉, puedes pasar a retirarlo. Disfrutalo!!!`);
       }
     });
   });

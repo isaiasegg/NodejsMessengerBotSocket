@@ -11,6 +11,7 @@ angular.module('gFood').factory('GeneralService', function ($http, $q, $window, 
         });
     }
 
+
     this.getRecords = function (id) {
         return $http({
             url: '/api/records',
@@ -85,6 +86,59 @@ angular.module('gFood').factory('GeneralService', function ($http, $q, $window, 
             return response;
         });
     }
+
+    this.logOut = function () {
+        return $http({
+            url: '/api/logout',
+            method: 'GET'
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
+    this.saveEmail = function (id, data) {
+        return $http({
+            url: '/api/saveemail/' + id,
+            method: 'PUT',
+            data
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
+    this.changePass = function (id, data) {
+        return $http({
+            url: '/api/changepass/' + id,
+            method: 'PUT',
+            data
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
+    this.saveAdminPass = function (id, data) {
+        return $http({
+            url: '/api/saveadminpass/' + id,
+            method: 'PUT',
+            data
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
+    
 
     return this;
 });

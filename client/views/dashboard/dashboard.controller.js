@@ -16,10 +16,12 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
   .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$route', '$window', '$location', function ($scope, GeneralService, $interval, $route, $window, $location) {
 
     //Session checker
-    if ($window.localStorage.getItem('token')) { GeneralService.getLoggedUser($window.localStorage.token.split('c412')[1]).then(function (data) { 
-      if(data.noExist) { $window.localStorage.removeItem('token'); return $location.path('/login'); };
-      $scope.admin_id = data;
-    }); } else { $location.path('/login'); }
+    if ($window.localStorage.getItem('token')) {
+      GeneralService.getLoggedUser($window.localStorage.token.split('c412')[1]).then(function (data) {
+        if (data.noExist) { $window.localStorage.removeItem('token'); return $location.path('/login'); };
+        $scope.admin_id = data;
+      });
+    } else { $location.path('/login'); }
     /*-----------------------------------------------------------------------*/
 
     updater($scope, GeneralService);
@@ -52,9 +54,11 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
     }
 
     $scope.logOut = function () {
-      $window.localStorage.removeItem('token');
-      $window.localStorage.removeItem('stats');
-      $location.path('/login');
+      GeneralService.logOut().then(function (data) {
+        $window.localStorage.removeItem('token');
+        $window.localStorage.removeItem('stats');
+        $location.path('/login');
+      });
     }
 
   }]) 

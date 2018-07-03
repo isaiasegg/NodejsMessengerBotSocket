@@ -57,42 +57,65 @@
                                 <md-datepicker ng-model="filters.date" md-placeholder="Filtrar por fecha" md-open-on-focus ng-change="filterByDate(records)"></md-datepicker>
                                 <md-button class="md-primary md-raised" ng-click="clearFilterByDate()">TODAS</md-button>
                             </div>
-
                         </div>
                         <md-divider></md-divider>
-                        <md-list-item class="md-3-line" ng-repeat="r in sales" ng-click="item()">
+                        <md-list-item class="md-3-line" ng-repeat="r in sales | orderBy: '-finished_time'" ng-click="item()">
                             <div class="md-list-user-text">
-                                <h3>{{r.invoice}} </h3>
+                                <h4>Número de orden:
+                                    <b>{{r.invoice}}</b>
+                                </h4>
                                 <h6 class="pie-lista">
                                     <b> Nombre </b> {{r.name}} |
-                                    <b> Tiempo de atencion: </b>{{getAttentionTime(r)}} Min</h6>
+                                    <b> Tiempo de atención: </b>{{getAttentionTime(r)}} Min |
+                                    <b> Puntuación: </b>{{r.qualification}}</h6>
                             </div>
                         </md-list-item>
                     </md-list>
                 </md-content>
             </md-tab>
 
+            <md-tab label="Perfil">
+                <md-content layout-padding flex style="margin-bottom: 100px">
+                    <h5>{{meta.local}}</h5>
+                    <hr style="border: none; margin-bottom: 0">
+                    <md-input-container>
+                        <label>Correo electrónico:</label>
+                        <input type="text" ng-model="adminModel.email" ng-blur="saveEmailFn(admin._id)">
+                    </md-input-container>
+                    <p class="small badge badge-success" ng-if="emailSaved">Email guardado con exito</p>
+                    <hr>
+                    <md-input-container>
+                        <label>Contraseña de administrador:</label>
+                        <input type="text" ng-model="adminModel.adminPass" ng-blur="saveAdminPassFn(admin._id)">
+                    </md-input-container>
+                    <p class="small badge badge-success" ng-if="adminPassSaved">Contraseña de administrador cambiada guardado con exito</p>
+                    <hr>
+                    <h5>Cambiar contraseña de cuenta:</h5>
+                    <form ng-submit="changePassFn(admin._id)">
+                        <md-input-container>
+                            <label>Contraseña actual:</label>
+                            <input type="password" ng-model="adminModel.password" required>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Contraseña Nueva:</label>
+                            <input type="password" ng-model="adminModel.newPassword" required>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Repetir Contraseña Nueva:</label>
+                            <input type="password" ng-model="adminModel.repPassword" required>
+                        </md-input-container>
+                        <div>
+                            <p class="small badge badge-danger" ng-if="msgErr">{{msgErr}}</p>
+                            <p class="small badge badge-success" ng-if="passChanged">{{passChanged}}</p>
+                        </div>
+                        <div>
+                            <md-button class="md-raised md-primary" md-position-mode="target-right target" type="submit">CAMBIAR</md-button>
+                        </div>
+                    </form>
 
-            <md-tab label="Historial de Puntuación">
-
-                <md-content flex style="margin-bottom: 100px">
-                    <md-list>
-                        <md-divider></md-divider>
-                        <md-subheader class="md-no-sticky">Lista de puntuaciones (del 1 a el 5)</md-subheader>
-                        <md-list-item class="md-3-line" ng-repeat="r in records" ng-click="item()">
-                            <div class="md-list-user-text">
-                                <h3>{{r.name}} </h3>
-                                <h6 class="pie-lista">
-                                    <b> Orden: </b> {{r.invoice}} 
-                            </div>
-                            <md-divider inset></md-divider>
-
-                            <md-button class="md-secondary md-raised md-primary">{{r.qualification}}</md-button>
-                        </md-list-item>
-                    </md-list>
                 </md-content>
-
             </md-tab>
+
         </md-tabs>
     </md-content>
 </div>

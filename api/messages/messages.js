@@ -31,7 +31,7 @@ module.exports.msgQrply = function (senderId, message, qr) {
   Send.callSendAPI(messageData);
 }
 
-module.exports.promos = function (senderId, message) {
+module.exports.promos = function (senderId) {
   var messageData = {
     recipient: {
       id: senderId
@@ -50,16 +50,16 @@ promos2 = (senderId) => {
 
   let promos = [
     {
-      title: 'Zapatos Adidas',
-      image_url: 'https://via.placeholder.com/300x300?text=ADIDAS',
-      subtitle: '30% de descuento',
-      url: 'https://gmz-gfood.herokuapp.com/assets/img/mapa.png'
+      title: 'Watermelon',
+      image_url: 'http://ilovepoh.cl/wp-content/uploads/2017/11/IMG-2109-600x600.jpg',
+      subtitle: '$9.500',
+      url: 'http://ilovepoh.cl/producto/watermelon/'
     },
     {
-      title: 'Almohada Homy',
-      image_url: 'https://via.placeholder.com/300x300?text=HOMY',
-      subtitle: '2x1 - Compra una almohada y lleva otra',
-      url: 'https://gmz-gfood.herokuapp.com/assets/img/mapa.png'
+      title: 'Mirrors',
+      image_url: 'http://ilovepoh.cl/wp-content/uploads/2017/10/IMG-2141-3-600x600.jpg',
+      subtitle: '$9.500',
+      url: 'http://ilovepoh.cl/producto/mirrors1/'
     }
   ];
 
