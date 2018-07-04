@@ -4,8 +4,9 @@
             <span>{{meta.local}}</span>
         </h3>
         <span flex></span>
-        
-        <md-switch ng-model="adminModel.turnedOff" class="md-warn" ng-if="adminLogged" style=" margin-right: 100px; " ng-change="turnOffFn()"> {{ adminModel.turnedOff ? 'APAGAR' : 'PRENDER'}}</md-switch>
+
+        <md-switch ng-model="adminModel.turnedOff" class="md-warn" ng-if="adminLogged" style=" margin-right: 100px; " ng-change="turnOffFn()">
+        {{ adminModel.turnedOff ? 'APAGAR' : 'PRENDER'}}</md-switch>
         <md-button class="md-raised md-primary" md-position-mode="target-right target" ng-click="goTo()">VOLVER</md-button>
     </div>
 </md-toolbar>
@@ -81,16 +82,10 @@
                     <h5>{{meta.local}}</h5>
                     <hr style="border: none; margin-bottom: 0">
                     <md-input-container>
-                        <label>Correo electrónico:</label>
+                        <label>Usuario:</label>
                         <input type="text" ng-model="adminModel.email" ng-blur="saveEmailFn(admin._id)">
                     </md-input-container>
                     <p class="small badge badge-success" ng-if="emailSaved">Email guardado con exito</p>
-                    <hr>
-                    <md-input-container>
-                        <label>Contraseña de administrador:</label>
-                        <input type="text" ng-model="adminModel.adminPass" ng-blur="saveAdminPassFn(admin._id)">
-                    </md-input-container>
-                    <p class="small badge badge-success" ng-if="adminPassSaved">Contraseña de administrador cambiada guardado con exito</p>
                     <hr>
                     <h5>Cambiar contraseña de cuenta:</h5>
                     <form ng-submit="changePassFn(admin._id)">
@@ -112,7 +107,13 @@
                         </div>
                         <div>
                             <md-button class="md-raised md-primary" md-position-mode="target-right target" type="submit">CAMBIAR</md-button>
-                        </div>
+                        </div> 
+                        <hr>
+                        <md-input-container>
+                            <label>Contraseña de administrador:</label>
+                            <input type="text" ng-model="adminModel.adminPass" ng-blur="saveAdminPassFn(admin._id)">
+                        </md-input-container>
+                        <p class="small badge badge-success" ng-if="adminPassSaved">Contraseña de administrador cambiada guardado con exito</p>
                     </form>
 
                 </md-content>

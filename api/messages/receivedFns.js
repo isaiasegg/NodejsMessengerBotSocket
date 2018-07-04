@@ -35,7 +35,7 @@ module.exports.receivedMessage = function (event) {
               let qr = [
                 { content_type: 'location' }
               ];
-              Message.msgQrply(senderId, `Hola ${user.first_name}, soy tu asistente para la entrega del pedido.\n\nTe encuentras en ${process.env.LOCAL}, envíame tu ubicacion para confirmar que estés en el lugar correcto.\n\nTambién te recuerdo que debes tener encendido el GPS de tu teléfono.\n\n*TAMBIÉN TE RECUERDO QUE DEBES TENER ENCENDIDO EL GPS (UBICACIÓN) DE TU TELÉFONO ANTES DE PRESIONAR : ENVIAR UBICACION 👇*`, qr);
+              Message.msgQrply(senderId, `Hola ${user.first_name}, soy tu asistente para la entrega del pedido.\n\nTe encuentras en ${process.env.LOCAL}, envíame tu ubicacion para confirmar que estés en el lugar correcto.\n\n*TAMBIÉN TE RECUERDO QUE DEBES TENER ENCENDIDO EL GPS (UBICACIÓN) DE TU TELÉFONO ANTES DE PRESIONAR : ENVIAR UBICACION 👇*`, qr);
             });
           } else {
             Actions.defaultMsg(senderId, message);

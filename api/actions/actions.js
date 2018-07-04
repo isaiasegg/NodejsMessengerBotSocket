@@ -29,7 +29,7 @@ const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
         let qr = [
           { content_type: "text", title: "Registrarme", payload: "REGISTRARME" }
         ];
-        Message.msgQrply(senderId, `Excelente. para comenzar presiona "Registrame", acto seguido ingresas tu numero de orden y enviar.`, qr);
+        Message.msgQrply(senderId, `Excelente. Para comenzar presiona "Registrame", acto seguido ingresas tu numero de orden y enviar.`, qr);
       });
     };
   });
