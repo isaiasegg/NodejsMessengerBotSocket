@@ -129,11 +129,15 @@ angular.module('gFood.StatsCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ngMate
     $scope.filters = {};
     $scope.filterByDate = function (sales) {
       $scope.sales = sales.filter(r => new Date(r.registered_time).toDateString() == new Date($scope.filters.date).toDateString());
+      $scope.daySells = $scope.sales.length;
+      $scope.getStats($scope.sales);
     }
 
     $scope.clearFilterByDate = function () {
       $scope.sales = $scope.records;
       $scope.filters.date = undefined;
+      $scope.daySells = $scope.sales.filter(r => new Date(r.registered_time).toDateString() == new Date().toDateString()).length;
+      $scope.getStats($scope.records);
     }
 
     $scope.daySellsFn = function (sales) {

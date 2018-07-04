@@ -13,7 +13,7 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
 
   }])
 
-  .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$route', '$window', '$location', function ($scope, GeneralService, $interval, $route, $window, $location) {
+  .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$route', '$window', '$location', '$mdDialog', function ($scope, GeneralService, $interval, $route, $window, $location, $mdDialog) {
 
     //Session checker
     if ($window.localStorage.getItem('token')) {
@@ -53,12 +53,33 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
       });
     }
 
-    $scope.logOut = function () {
-      GeneralService.logOut().then(function (data) {
-        $window.localStorage.removeItem('token');
-        $window.localStorage.removeItem('stats');
-        $location.path('/login');
+    $scope.loggoutDialog = function (){
+      $mdDialog.show({
+        controller: $scope.logOutController,
+        templateUrl: 'views/dashboard/logout.html',
+        clickOutsideToClose: true,
+        fullscreen: false
+      }).then(() => { }, () => { 
       });
+    };
+
+    $scope.logOutController = function ($scope, $mdDialog) {
+
+      $scope.logOut = function () {
+        $mdDialog.cancel();
+        GeneralService.logOut().then(function (data) {
+          $window.localStorage.removeItem('token');
+          $window.localStorage.removeItem('stats');
+          $location.path('/login');
+        });
+      }
+
+      $scope.cancel = () => {
+        $mdDialog.cancel();
+      };
+
     }
+
+
 
   }]) 
