@@ -4,6 +4,8 @@
             <span>{{meta.local}}</span>
         </h3>
         <span flex></span>
+        
+        <md-switch ng-model="adminModel.turnedOff" class="md-warn" ng-if="adminLogged" style=" margin-right: 100px; " ng-change="turnOffFn()"> {{ adminModel.turnedOff ? 'APAGAR' : 'PRENDER'}}</md-switch>
         <md-button class="md-raised md-primary" md-position-mode="target-right target" ng-click="goTo()">VOLVER</md-button>
     </div>
 </md-toolbar>

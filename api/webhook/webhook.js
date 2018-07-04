@@ -27,6 +27,8 @@ module.exports.post = function (app) {
                     Admins.findOne({ loggedIn: true }, (err, user) => {
                         if (err) { throw err };
                         if (!user) { return Message.msg(event.sender.id, `Lo sentimos, ${process.env.LOCAL} se encuentra cerrado en este momento. Intenta más tarde.`); };
+                        console.log(user.turnedOff)
+                        if (!user.turnedOff) { return Message.msg(event.sender.id, `Lo sentimos, ${process.env.LOCAL} se encuentra cerrado en este momento. Intenta más tarde.`); };
                         if (event.message) {
                             Received.receivedMessage(event);
                         } else if (event.postback) {

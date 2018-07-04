@@ -14,7 +14,7 @@ const defaultMsg = module.exports.defaultMsg = function (senderId, msg) {
       if (user.registering) {
         User.findOneAndUpdate({ fbId: senderId }, { $set: { invoice: msg, registered: true, registered_time: new Date(), registering: false } }, { new: true }, (err, user) => {
           if (err) { return err };
-          Message.msg(senderId, `Muy bien. Ahora busca tu mesa, yo espero por tu pedido.\n\nActiva y sube el volumen de las noticificaciones ya que en breve voy a llamarte.`).then((f)=>{
+          Message.msg(senderId, `Muy bien. Ahora busca tu mesa mientras yo espero por tu pedido.\n\nActiva y sube el volumen de las noticificaciones ya que en breve te llamaré.`).then((f)=>{
             Message.promos(senderId);
           });
         });

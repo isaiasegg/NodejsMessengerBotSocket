@@ -4,6 +4,7 @@ var AdminsSchema = new mongoose.Schema({
     loggedIn: { type: Boolean, default: false },
     loggedInTime: { type: Date },
     loggedOut: { type: Boolean, default: false },
+    turnedOff: { type: Boolean, default: false },
     loggedOutTime: { type: Date },
     email: { type: String },
     password: { type: String },

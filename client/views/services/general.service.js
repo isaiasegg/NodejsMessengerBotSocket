@@ -99,6 +99,18 @@ angular.module('gFood').factory('GeneralService', function ($http, $q, $window, 
         });
     }
 
+    this.turnOff = function () {
+        return $http({
+            url: '/api/turnoff',
+            method: 'GET'
+        }).then(function successCallback(response) {
+            return response.data
+        }, function errorCallback(response) {
+            console.log(response);
+            return response;
+        });
+    }
+
     this.saveEmail = function (id, data) {
         return $http({
             url: '/api/saveemail/' + id,

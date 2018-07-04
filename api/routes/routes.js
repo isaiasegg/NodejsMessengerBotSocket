@@ -48,11 +48,19 @@ module.exports.general = function (app) {
     res.json(meta)
   });
 
-  app.get('/api/logout', function (req, res) {
-    Admins.findOneAndUpdate({ superAdmin: true }, { $set: { loggedIn: false, loggedOut: true, loggedOutTime: new Date } }, (err, user) => {
-      res.json('done');
-    });
-  });
+  app.get('/api/logout', function (req, res) { 
+      Admins.findOneAndUpdate({ superAdmin: true }, { $set: { loggedIn: false, loggedOut: false, loggedOutTime: new Date } }, (err, user) => {
+        res.json('done');
+      }); 
+  });  
+
+  app.get('/api/turnoff', function (req, res) {
+    Admins.findOne({ superAdmin: true }, (err, admin)=>{
+      Admins.findOneAndUpdate({ superAdmin: true }, { $set: { turnedOff: admin.turnedOff ? false : true } }, (err, user) => {
+        res.json('done');
+      });
+    }) 
+  });  
 
   app.get('/api/users', function (req, res) {
     User.find({}, (err, users) => {

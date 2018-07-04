@@ -88,7 +88,13 @@ angular.module('gFood.StatsCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ngMate
       });
     };
 
-    
+    $scope.logOut = function () {
+      GeneralService.logOut().then(function (data) { });
+    }
+
+    $scope.turnOffFn = function () {
+      GeneralService.turnOff().then(function (data) { });
+    } 
 
     $scope.changePassFn = function (id) {
       if ($scope.adminModel.password === $scope.adminpass) {
