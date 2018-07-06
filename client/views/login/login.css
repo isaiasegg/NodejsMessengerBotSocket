@@ -94,16 +94,6 @@ md-dialog {
     min-width: 60%; 
 }
 
-.login-bg{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    opacity: .1;
-    height: 100vh;
-    background: url(/assets/img/login.png)
-}
-
 .container { 
     z-index: 99;
 }
@@ -111,4 +101,9 @@ md-dialog {
 button.md-raised.md-primary.md-button.ng-scope.md-ink-ripple {
     width: 100%;
     margin: 0 0 40px 0;
+}
+
+.account-wall {
+    margin: 0 auto;
+    width: 400px;
 }

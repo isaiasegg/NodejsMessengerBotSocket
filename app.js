@@ -1,40 +1,37 @@
 const express = require('express');
-const Promise = require('bluebird'); 
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv'); dotenv.load();
-const compression = require('compression'); 
-const app = express(); 
-app.use(compression());
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io').listen(server); 
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useMongoClient: true,
-  socketTimeoutMS: 0,
-  reconnectTries: 30
-});
-
-//App Require 
-const Routes = require('./api/routes/routes');
-const Webhook = require('./api/webhook/webhook');
 //App use
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 app.use(express.static(__dirname + '/client'));
-
-//Client routes 
-Routes.general(app);
+ 
+//Login 
+app.post('/api/login', (req, res) => {
+  if (req.body.email == process.env.EMAIL && req.body.password == process.env.PASSWORD) {
+    res.json({ access: true });
+  } else {
+    res.json({ msg: 'Usuario y/o contraseña incorrecta' });
+  }
+}); 
 
 //Facebook webhook
+const Webhook = require('./api/webhook/webhook');
 Webhook.get(app);
-Webhook.post(app);
+io.on('connection', (socket) => { 
+  Webhook.post(app, socket); 
+});
 
+//Front end files
 app.get('/*', function (req, res) {
   res.sendFile(__dirname + '/client/index.html');
 });
 
-//Running server
-app.listen(process.env.PORT || 3001, function () {
-  console.log('Listening to port 3000')
-}); 
-
-
+//Running server  
+server.listen(process.env.PORT || 3001, function () {
+  console.log('listening on ' + 3001);
+});

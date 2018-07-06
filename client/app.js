@@ -1,21 +1,16 @@
 'use strict';
 
-angular.module('gFood', [
+angular.module('NodeJsMessengerBot', [
   'ngRoute',
   'ngMaterial',
   'ngMessages',
   'angularCSS',
-  'gFood.DashboardCtrl',
-  'gFood.LoginCtrl',
-  'gFood.StatsCtrl'
+  'NodeJsMessengerBot.DashboardCtrl',
+  'NodeJsMessengerBot.LoginCtrl', 
 ]).
   config(['$locationProvider', '$routeProvider', '$mdThemingProvider', '$provide', function ($locationProvider, $routeProvider, $mdThemingProvider, $provide) {
     $locationProvider.hashPrefix('!'); 
   }])
-  .run(function ($rootScope, $location, GeneralService ) {
-
-    GeneralService.getMeta().then(function (data) {
-      $rootScope.meta = data; 
-    });
-
+  .run(function () {
+    
   })

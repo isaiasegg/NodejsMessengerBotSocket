@@ -1,6 +1,5 @@
 const request = require('request');
-const Promise = require("bluebird"); 
-const User = require('../models/Users');
+const Promise = require("bluebird");  
 
 module.exports.callSendAPI = function (messageData) {
   return new Promise(

@@ -1,52 +1,26 @@
-.logo {
-    width: 60px;
-    height: 60px;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+ul{
+    padding: 0; 
 }
-
-md-list-item .md-avatar, md-list-item .md-list-item-inner .md-avatar { 
-    width: 70px;
-    height: 70px;
+li {
+    color: black;
+    list-style: none;
 }
-
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 5px; 
+li:nth-child(odd) {
+    color: #2a2a2a;
+    padding: 10px;
+    background: #e6e8e9;
+    display: table;
+    border-radius: 10px;
+    font-size: 19px;
+    margin-bottom: 10px;
 }
-
-.mainContent {
-    display: flex;
-}
-
-md-list { 
-    padding: 0px 0px 8px 0px;
-}
-
-.listsContent {
-    display: flex;
-}
-
-md-content.stats {
-    height: 90vh;
-    background: #f1f1f1;
-}
-
-.loginHoldere {
-    position: absolute;
-    display: -webkit-box;
-    background: #fff;
-    top: 150px;
-    left: calc(50% - 150px);
-    width: 300px;
-    text-align: center;
-    padding: 20px;
-}
-
-md-input-container {
-    margin: 10px 0 0 0;
-}
-
-.md-errors-spacer {
-    display: none;
+li:nth-child(even) {
+    color: #2a2a2a;
+    padding: 10px;
+    background: #a6dffb;
+    border-radius: 10px;
+    font-size: 19px;
+    margin-bottom: 10px;
+    float: right;
+    display: table;
 }

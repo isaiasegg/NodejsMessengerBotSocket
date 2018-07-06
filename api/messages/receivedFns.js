@@ -1,54 +1,31 @@
 
-const User = require('../models/Users');
-const Message = require('../messages/messages');
-const Actions = require('../actions/actions');
-const request = require('request');
+const Message = require('../messages/messages'); 
 
-module.exports.receivedMessage = function (event) {
+module.exports.receivedMessage = function (event, socket) {
   var senderId = event.sender.id;
   var message = event.message.text;
-  var quick_reply = event.message.quick_reply ? event.message.quick_reply.payload : false;
-  let location = event.message.attachments ? event.message.attachments[0].payload ? event.message.attachments[0].payload.coordinates : false : false;
+  var quick_reply = event.message.quick_reply ? event.message.quick_reply.payload : false; 
 
-  if (/CALIFICACION_/.test(quick_reply)) {
-    Actions.qualification(senderId, quick_reply);
-  }
+  //Send msg to client conected 
+  socket.emit('msg', { txt: message });
 
-  if (/REGISTRARME/.test(quick_reply)) {
-    Actions.register(senderId);
-  }
-
-  if (location) { 
-    Actions.processLocation(senderId, location); 
-  }
-
-  if (!quick_reply && !location) {
+  //Do something with the message
+  if (!quick_reply) {
     switch (message) {
       default:
-        //
-        User.findOne({ fbId: senderId }, (err, user) => {
-          if (err) { return err };
-          if (!user) {
-            request('https://graph.facebook.com/v2.6/' + senderId + '?fields=first_name&access_token=' + process.env.PAGE_ACCESS_TOKEN, function (err, response, body) {
-              if (err) { console.log(); return err; };
-              const user = JSON.parse(body);
-              let qr = [
-                { content_type: 'location' }
-              ];
-              Message.msgQrply(senderId, `Hola ${user.first_name}, soy tu asistente para la entrega del pedido.\n\nTe encuentras en ${process.env.LOCAL}, envíame tu ubicacion para confirmar que estés en el lugar correcto.\n\n*TAMBIÉN TE RECUERDO QUE DEBES TENER ENCENDIDO EL GPS (UBICACIÓN) DE TU TELÉFONO ANTES DE PRESIONAR : ENVIAR UBICACION 👇*`, qr);
-            });
-          } else {
-            Actions.defaultMsg(senderId, message);
-          }
-        })
+        Message.msg(socket, senderId, 'Hola, esto es un mensaje default!');
         break;
-
+    }
+  } else{ 
+    switch (quick_reply) {
+      default:
+        Message.msg(socket, senderId, 'Este fue tu quick reply: '+quick_reply)
+        break;
     }
   }
-};
+}
 
-
-module.exports.receivedPostback = function (event) {
+module.exports.receivedPostback = function (event, socket) {
   var senderId = event.sender.id;
   var payload = event.postback.payload;
   var referral = event.postback.referral ? event.postback.referral.ref : undefined;
@@ -56,11 +33,7 @@ module.exports.receivedPostback = function (event) {
   switch (payload) {
     default:
       console.log('Default Payload');
-      break;
-
+      break; 
   }
 }
-
-
-
 

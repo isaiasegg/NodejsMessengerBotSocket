@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ngMaterial', 'ngMessages'])
+angular.module('NodeJsMessengerBot.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ngMaterial', 'ngMessages'])
 
   .config(['$routeProvider', '$locationProvider', '$mdThemingProvider', function ($routeProvider, $locationProvider, $mdThemingProvider) {
     $routeProvider.when('/', {
@@ -13,73 +13,26 @@ angular.module('gFood.DashboardCtrl', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ng
 
   }])
 
-  .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$route', '$window', '$location', '$mdDialog', function ($scope, GeneralService, $interval, $route, $window, $location, $mdDialog) {
+  .controller('DashboardCtrl', ['$scope', 'GeneralService', '$interval', '$window', '$location', function ($scope, GeneralService, $interval, $window, $location) {
+
+    $scope.msgs = [];
+    var socket = io.connect(); 
+    socket.on('msg', function (data) { 
+      $scope.msgs.push(data.txt);
+    })  
 
     //Session checker
-    if ($window.localStorage.getItem('token')) {
-      GeneralService.getLoggedUser($window.localStorage.token.split('c412')[1]).then(function (data) {
-        if (data.noExist) { $window.localStorage.removeItem('token'); return $location.path('/login'); };
-        $scope.admin_id = data;
-      });
-    } else { $location.path('/login'); }
+    if (!$window.localStorage.getItem('token')) { $location.path('/login'); }
     /*-----------------------------------------------------------------------*/
 
-    updater($scope, GeneralService);
     stop = $interval(function () {
-      updater($scope, GeneralService);
+      //
     }, 2000);
 
-    $scope.$on('$destroy', function () {
-      if (angular.isDefined(stop)) { $interval.cancel(stop); stop = undefined; }
-    });
-
-    $scope.callUserFn = function (user) {
-      $scope.buttonDisabled = true;
-      GeneralService.callUser(user._id, user).then(function (data) {
-        $route.reload();
-      });
+    $scope.logout = function () {
+      $window.localStorage.removeItem('token');
+      $location.path('/login');
     }
 
-    $scope.finishUserFn = function (user) {
-      $scope.buttonDisabled = true;
-      GeneralService.finishUser(user._id, user).then(function (data) {
-        $route.reload();
-      });
-    }
-
-    function updater(params) {
-      GeneralService.getUsers().then(function (data) {
-        $scope.users = data;
-      });
-    }
-
-    $scope.loggoutDialog = function (){
-      $mdDialog.show({
-        controller: $scope.logOutController,
-        templateUrl: 'views/dashboard/logout.html',
-        clickOutsideToClose: true,
-        fullscreen: false
-      }).then(() => { }, () => { 
-      });
-    };
-
-    $scope.logOutController = function ($scope, $mdDialog) {
-
-      $scope.logOut = function () {
-        $mdDialog.cancel();
-        GeneralService.logOut().then(function (data) {
-          $window.localStorage.removeItem('token');
-          $window.localStorage.removeItem('stats');
-          $location.path('/login');
-        });
-      }
-
-      $scope.cancel = () => {
-        $mdDialog.cancel();
-      };
-
-    }
-
-
-
+    
   }]) 

@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html lang="en" ng-app="gFood" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]><html lang="en" ng-app="gFood" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]><html lang="en" ng-app="gFood" class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]><html lang="en" ng-app="NodeJsMessengerBot" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html lang="en" ng-app="NodeJsMessengerBot" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html lang="en" ng-app="NodeJsMessengerBot" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="es" ng-app="gFood" class="no-js">
+<html lang="es" ng-app="NodeJsMessengerBot" class="no-js">
 <!--<![endif]-->
 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{meta.local}}</title>
+  <title>NodeJsMessengerBot</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <base href="/">
-  <meta name="theme-color" content="#009688" />
-  <link rel="icon" type="image/png" href="/assets/img/favicon.png?v=1" />
-  <link type="text/css" rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <link type="text/css" rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+  <base href="/">  
+  <link type="text/css" rel="stylesheet" href="components/angular-material/angular-material.css">
   <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="../app.css">
 </head>
@@ -26,27 +23,28 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div ng-view class="vistas"></div>
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-aria/angular-aria.min.js"></script>
-  <script src="bower_components/angular-messages/angular-messages.min.js"></script>
-  <script src="bower_components/angular-material/angular-material.min.js"></script>
-  <script src="bower_components/angular-css/angular-css.min.js"></script>
-  <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script> 
+  <div ng-view class="vistas"></div>  
+  <script src="components/socket/socket.io.dev.js"></script>
+  <script src="components/angular/angular.js"></script>
+  <script src="components/angular-animate/angular-animate.min.js"></script>
+  <script src="components/angular-route/angular-route.js"></script>
+  <script src="components/angular-aria/angular-aria.min.js"></script>
+  <script src="components/angular-messages/angular-messages.min.js"></script>
+  <script src="components/angular-material/angular-material.min.js"></script>
+  <script src="components/angular-css/angular-css.min.js"></script>
+  <script src="components/angular-sanitize/angular-sanitize.min.js"></script> 
   <!-- app -->
   <script src="app.js"></script>
 
   <!-- controllers -->
   <script src="views/dashboard/dashboard.controller.js"></script> 
-  <script src="views/login/login.controller.js"></script>
-  <script src="views/stats/stats.controller.js"></script>
+  <script src="views/login/login.controller.js"></script> 
 
   <!-- services --> 
   <script src="views/services/general.service.js"></script>
   <script src="views/login/login.service.js"></script>  
+  <script> 
+  </script>
 
 </body>
 

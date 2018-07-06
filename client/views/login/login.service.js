@@ -1,10 +1,10 @@
-angular.module('gFood')
-.factory('LoginService', function ($http, $q,$window,$location) {
+angular.module('NodeJsMessengerBot')
+.factory('LoginService', function ($http) {
 
-    //GET USER
+    //Login
     this.login = function (data) { 
         return $http({
-            url: '/asdcac1546k4ds684f46vx65dh46j/login',
+            url: '/api/login',
             method: 'POST',
             data: data
         }).then(function successCallback(response) {
