@@ -56,7 +56,7 @@ module.exports.register = function (senderId) {
 module.exports.qualification = function (senderId, q) {
   Records.findOneAndUpdate({ fbId: senderId, qualified: false }, { $set: { qualification: parseInt(q.split('_')[1]) }, qualified: true }, { new: true }, (err, user) => {
     if (err) { return err };
-    Message.msg(senderId, `Chao chao 👍👍`)
+    Message.msg(senderId, `Chao chao, gracias por usar gFood 👍👍`)
   });
 }
 

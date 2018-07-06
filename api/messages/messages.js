@@ -32,17 +32,19 @@ module.exports.msgQrply = function (senderId, message, qr) {
 }
 
 module.exports.promos = function (senderId) {
-  var messageData = {
-    recipient: {
-      id: senderId
-    },
-    message: {
-      text: 'Mientras esperas, hecha un vistazo a estas ofertas 🤓'
-    }
-  };
-  Send.callSendAPI(messageData).then((f) => {
-    promos2(senderId);
-  });
+  setTimeout(() => { 
+    var messageData = {
+      recipient: {
+        id: senderId
+      },
+      message: {
+        text: 'Mientras esperas, hecha un vistazo a estas ofertas 🤓'
+      }
+    };
+    Send.callSendAPI(messageData).then((f) => {
+      promos2(senderId);
+    });
+  }, 5000);
 }
 
 promos2 = (senderId) => {
@@ -67,5 +69,5 @@ promos2 = (senderId) => {
     messageData.message.attachment.payload.elements.push({ title: promos[i].title, image_url: promos[i].image_url, subtitle: promos[i].subtitle, default_action: { type: 'web_url', url: promos[i].url }, buttons: [{ type: 'element_share' },], })
     if ((i + 1) === promos.length) { Send.callSendAPI(messageData); };
   }
-  
+
 }
