@@ -1,6 +1,9 @@
 # NodejsMessengerBotSocket
 Repositorio "ready to use" para conectarse al API de Facebook Messenger utilizando Node Js y Express. Además cuenta con un cliente creado en Angular Js y Angular Material donde despues de una pantalla de login simple, se muestra toda la conversación que se está llevando desde messenger con el bot, este "streaming" se hace con Socket.io
 
+Requerimientos:
+- Node Js
+
 Instrucciones:
 
 - npm install
